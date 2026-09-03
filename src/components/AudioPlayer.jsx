@@ -81,7 +81,7 @@ export default function AudioPlayer({ onToast }) {
     <>
       <audio
         ref={audioRef}
-        src="music/background.mp3"
+        src="/music/background.mp3"
         loop
         preload="auto"
         muted

@@ -156,7 +156,7 @@ export function Hero({ onToast }) {
     <header className="hero-section" id="hero" ref={heroRef}>
       {/* Background Layers */}
       <img
-        src="HD/background.png"
+        src="/HD/background.png"
         alt="Islamic Sunset Garden Background"
         className="hero-bg-layer"
         loading="eager"
@@ -164,7 +164,7 @@ export function Hero({ onToast }) {
       <div className="hero-overlay-gradient"></div>
       <div className="hero-light-glow"></div>
       <img
-        src="HD/tree.png"
+        src="/HD/tree.png"
         alt="Majestic Decorative Tree"
         className="hero-tree-layer"
         loading="eager"
@@ -286,7 +286,7 @@ export function Hero({ onToast }) {
         <div className="bismillah-wrapper">
           {!imgErrors.bismillah ? (
             <img
-              src="HD/bismilla.png"
+              src="/HD/bismilla.png"
               alt="Bismillah Calligraphy"
               className="bismillah-img"
               onError={() => handleImgError("bismillah")}
@@ -320,7 +320,7 @@ export function Hero({ onToast }) {
               {/* <span className="name-role">Groom</span> */}
               {!imgErrors.ammar ? (
                 <img
-                  src="HD/name_ammar.png"
+                  src="/HD/name_ammar.png"
                   alt="Ammar"
                   className="name-img-asset"
                   onError={() => handleImgError("ammar")}
@@ -334,7 +334,7 @@ export function Hero({ onToast }) {
             <div className="weds-symbol">
               {!imgErrors.weds ? (
                 <img
-                  src="HD/name_weds.png"
+                  src="/HD/name_weds.png"
                   alt="Weds"
                   className="name-img-asset"
                   style={{ maxHeight: "48px" }}
@@ -352,7 +352,7 @@ export function Hero({ onToast }) {
               {/* <span className="name-role">Bride</span> */}
               {!imgErrors.amatullah ? (
                 <img
-                  src="HD/name_amatullah.png"
+                  src="/HD/name_amatullah.png"
                   alt="Amatullah"
                   className="name-img-asset"
                   onError={() => handleImgError("amatullah")}
