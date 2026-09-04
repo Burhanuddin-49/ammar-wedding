@@ -1131,6 +1131,269 @@ button {
 }
 
 /* --------------------------------------------------------------------------
+   11b. RSVP SECTION (GOOGLE SHEETS INTEGRATION)
+   -------------------------------------------------------------------------- */
+.section-rsvp {
+  padding: var(--section-spacing) 0;
+  position: relative;
+  background: linear-gradient(180deg, rgba(12, 59, 46, 0.02) 0%, rgba(201, 162, 39, 0.05) 50%, rgba(12, 59, 46, 0.02) 100%);
+}
+
+.rsvp-card-wrapper {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.rsvp-card {
+  padding: clamp(2.5rem, 5vw, 3.8rem) clamp(1.75rem, 4vw, 3.2rem);
+  text-align: center;
+}
+
+.rsvp-intro-text {
+  font-size: 1.1rem;
+  color: var(--color-text-secondary);
+  max-width: 540px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+.rsvp-alert-error {
+  background: rgba(217, 56, 58, 0.1);
+  border: 1px solid rgba(217, 56, 58, 0.35);
+  color: #a82325;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  justify-content: center;
+}
+
+.rsvp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  text-align: left;
+}
+
+.rsvp-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.rsvp-label {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-emerald-900);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.required-star {
+  color: var(--color-gold-500);
+  font-weight: 700;
+}
+
+.optional-text {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.rsvp-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.rsvp-field-icon {
+  position: absolute;
+  left: 1.1rem;
+  color: var(--color-gold-500);
+  font-size: 1.25rem;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.rsvp-field-icon.textarea-icon {
+  top: 1rem;
+}
+
+.rsvp-input {
+  width: 100%;
+  padding: 0.95rem 1.1rem 0.95rem 2.9rem;
+  background: rgba(253, 250, 245, 0.75);
+  border: 1.5px solid rgba(201, 162, 39, 0.35);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-emerald-950);
+  transition: all 0.3s ease;
+}
+
+.rsvp-input:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: var(--color-gold-400);
+  box-shadow: 0 0 16px rgba(201, 162, 39, 0.28);
+}
+
+.rsvp-select {
+  cursor: pointer;
+  appearance: auto;
+}
+
+.rsvp-textarea {
+  resize: vertical;
+  min-height: 90px;
+  line-height: 1.5;
+}
+
+/* Attendance Choice Grid */
+.rsvp-attendance-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem;
+}
+
+.rsvp-choice-btn {
+  background: rgba(253, 250, 245, 0.65);
+  border: 1.5px solid rgba(201, 162, 39, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.3s ease;
+}
+
+.rsvp-choice-btn:hover {
+  background: #ffffff;
+  border-color: var(--color-gold-400);
+  transform: translateY(-2px);
+}
+
+.rsvp-choice-btn.active {
+  background: linear-gradient(135deg, rgba(12, 59, 46, 0.08) 0%, rgba(201, 162, 39, 0.12) 100%);
+  border: 2px solid var(--color-gold-400);
+  box-shadow: 0 6px 18px rgba(201, 162, 39, 0.2);
+}
+
+.rsvp-choice-btn.active.decline {
+  background: rgba(217, 56, 58, 0.06);
+  border-color: rgba(217, 56, 58, 0.4);
+}
+
+.choice-icon {
+  font-size: 1.4rem;
+  color: var(--color-gold-500);
+  min-width: 28px;
+}
+
+.choice-text-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.choice-text-wrap strong {
+  font-size: 0.95rem;
+  color: var(--color-emerald-900);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.choice-text-wrap span {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.15rem;
+}
+
+/* Actions & Button */
+.rsvp-actions {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.rsvp-submit-btn {
+  width: 100%;
+  max-width: 320px;
+  padding: 1rem 2rem;
+  font-size: 1.05rem;
+  justify-content: center;
+}
+
+.spinner-icon {
+  animation: spin 1s infinite linear;
+  font-size: 1.25rem;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Success View */
+.rsvp-success-view {
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.success-icon-wrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--color-gold-gradient);
+  color: #1A2E26;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 10px 25px rgba(201, 162, 39, 0.35);
+}
+
+.success-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.success-desc {
+  font-size: 1.1rem;
+  color: var(--color-text-secondary);
+  max-width: 520px;
+  margin: 0 auto 2rem;
+  line-height: 1.7;
+}
+
+.text-highlight {
+  color: var(--color-emerald-900);
+}
+
+.success-actions {
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .rsvp-attendance-grid {
+    grid-template-columns: 1fr;
+  }
+  .rsvp-submit-btn {
+    max-width: 100%;
+  }
+}
+
+/* --------------------------------------------------------------------------
    12. BLESSINGS & QURANIC DUA
    -------------------------------------------------------------------------- */
 .section-blessings {

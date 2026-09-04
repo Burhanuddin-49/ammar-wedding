@@ -6,6 +6,7 @@ import EventDetails from "./components/EventDetails";
 import Countdown from "./components/Countdown";
 import Gallery from "./components/Gallery";
 import VenueMap from "./components/VenueMap";
+import Rsvp from "./components/Rsvp";
 import Blessings from "./components/Blessings";
 import Footer from "./components/Footer";
 import AudioPlayer from "./components/AudioPlayer";
@@ -52,6 +53,9 @@ export default function App() {
 
       {/* Venue & Google Maps */}
       <VenueMap onToast={showToast} />
+
+      {/* Guest RSVP & Blessings Form */}
+      <Rsvp onToast={showToast} />
 
       {/* Quranic Ayah & Blessings */}
       <Blessings />
