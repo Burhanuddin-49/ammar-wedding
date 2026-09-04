@@ -54,7 +54,7 @@ export default function App() {
       {/* Venue & Google Maps */}
       <VenueMap onToast={showToast} />
 
-      {/* Guest RSVP & Blessings Form */}
+      {/* Guest RSVP & Blessings Form. */}
       <Rsvp onToast={showToast} />
 
       {/* Quranic Ayah & Blessings */}
