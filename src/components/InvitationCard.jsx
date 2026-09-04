@@ -65,7 +65,7 @@ export function InvitationCard() {
             </span>{" "}
             & Dua Mubarak of His Holiness{" "}
             <span className="highlight-dua">
-              Syedna Aali Qadar Mufaddal Saifuddin Aga (T.U.S.)
+              Syedna Aali Qadar Mufaddal Saifuddin Aqa (T.U.S.)
             </span>
           </p>
 
