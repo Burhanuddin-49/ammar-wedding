@@ -1,9 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { GOOGLE_SHEET_RSVP_URL } from "../config/rsvp";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function Rsvp({ onToast }) {
   const sectionRef = useRef(null);
@@ -11,27 +8,31 @@ export default function Rsvp({ onToast }) {
 
   const [formData, setFormData] = useState({
     name: "",
-    phone: "",
-    attendance: "Both Events", // 'Both Events' | 'Khushi Nu Jaman' | 'Walima' | 'Cannot Attend'
-    guests: "1",
-    message: "",
+    attendance: "Yes", // 'Yes' | 'No'
+  });
+
+  const [imgErrors, setImgErrors] = useState({
+    bismillah: false,
+    ammar: false,
+    amatullah: false,
+    weds: false,
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const handleImgError = (key) => {
+    setImgErrors((prev) => ({ ...prev, [key]: true }));
+  };
+
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(cardRef.current, {
-        y: 50,
+        y: 35,
         opacity: 0,
         duration: 1.1,
         ease: "power3.out",
-        scrollTrigger: {
-          trigger: cardRef.current,
-          start: "top 85%",
-        },
       });
     }, sectionRef);
 
@@ -43,21 +44,17 @@ export default function Rsvp({ onToast }) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleAttendanceSelect = (val) => {
-    setFormData((prev) => ({ ...prev, attendance: val }));
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
 
     if (!formData.name.trim()) {
-      setErrorMessage("Please enter your name.");
+      setErrorMessage("Please enter your full name.");
       return;
     }
 
-    if (!formData.phone.trim()) {
-      setErrorMessage("Please enter your WhatsApp or phone number.");
+    if (!formData.attendance) {
+      setErrorMessage("Please select whether you will be attending.");
       return;
     }
 
@@ -65,19 +62,22 @@ export default function Rsvp({ onToast }) {
 
     try {
       // If user hasn't configured Google Sheet URL yet, simulate a successful preview submission
-      if (!GOOGLE_SHEET_RSVP_URL || GOOGLE_SHEET_RSVP_URL.includes("PASTE_YOUR")) {
-        console.warn("Google Sheet Web App URL not set in src/config/rsvp.js. Simulating submission.");
+      if (
+        !GOOGLE_SHEET_RSVP_URL ||
+        GOOGLE_SHEET_RSVP_URL.includes("PASTE_YOUR")
+      ) {
+        console.warn(
+          "Google Sheet Web App URL not set in src/config/rsvp.js. Simulating submission.",
+        );
         await new Promise((resolve) => setTimeout(resolve, 1000));
       } else {
         const payload = new FormData();
         payload.append("name", formData.name.trim());
-        payload.append("phone", formData.phone.trim());
-        payload.append("attendance", formData.attendance);
-        payload.append(
-          "guests",
-          formData.attendance === "Cannot Attend" ? "0" : formData.guests
-        );
-        payload.append("message", formData.message.trim());
+        payload.append("attendance", formData.attendance); // "Yes" or "No"
+        // Retain consistent columns for spreadsheet compatibility
+        payload.append("phone", "");
+        // payload.append("guests", formData.attendance === "Yes" ? "1" : "0");
+        payload.append("message", "");
 
         // Send via POST with no-cors to prevent browser redirect CORS blockage
         await fetch(GOOGLE_SHEET_RSVP_URL, {
@@ -88,10 +88,16 @@ export default function Rsvp({ onToast }) {
       }
 
       setIsSubmitted(true);
-      if (onToast) onToast("✨ Shukran! Your RSVP has been confirmed.");
+      if (onToast) {
+        onToast(
+          formData.attendance === "Yes"
+            ? "✨ Shukran! Your RSVP has been confirmed."
+            : "✨ Shukran! Your response has been received.",
+        );
+      }
     } catch (err) {
       console.error("RSVP submission error:", err);
-      setErrorMessage("Failed to send RSVP. Please try again or message via WhatsApp.");
+      setErrorMessage("Failed to send RSVP. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -101,28 +107,17 @@ export default function Rsvp({ onToast }) {
     setIsSubmitted(false);
     setFormData({
       name: "",
-      phone: "",
-      attendance: "Both Events",
-      guests: "1",
-      message: "",
+      attendance: "Yes",
     });
   };
 
   return (
-    <section className="section-rsvp" id="rsvp" ref={sectionRef}>
-      <div className="container">
-        <div className="section-title-wrap">
-          <span className="section-tag">Honor Us with Your Presence</span>
-          <h2 className="section-main-title text-gold-gradient">
-            RSVP & Blessings
-          </h2>
-          <div className="islamic-divider">
-            <span className="islamic-divider-icon">
-              <i className="ri-mail-star-line"></i>
-            </span>
-          </div>
-        </div>
-
+    <section
+      className="section-rsvp single-screen-rsvp"
+      id="rsvp"
+      ref={sectionRef}
+    >
+      <div className="container rsvp-single-container">
         <div className="rsvp-card-wrapper" ref={cardRef}>
           <div className="arch-card rsvp-card ornate-corners">
             <span className="corner-ornament corner-tl">
@@ -138,20 +133,108 @@ export default function Rsvp({ onToast }) {
               <i className="ri-sparkling-2-line"></i>
             </span>
 
-            <div className="islamic-seal">
-              <i
-                className="ri-mail-send-line"
-                style={{ fontSize: "2rem", color: "var(--color-emerald-900)" }}
-              ></i>
+            {/* 1. Bismillah & Couple Names Design */}
+            <div className="rsvp-header-couple">
+              <div className="rsvp-bismillah-wrap">
+                {!imgErrors.bismillah ? (
+                  <img
+                    src="/HD/bismilla.png"
+                    alt="Bismillah Calligraphy"
+                    className="rsvp-bismillah-img"
+                    onError={() => handleImgError("bismillah")}
+                  />
+                ) : (
+                  <div className="rsvp-bismillah-text text-gold-gradient">
+                    بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
+                  </div>
+                )}
+              </div>
+
+              <div className="rsvp-couple-row">
+                <div className="rsvp-name-block">
+                  {!imgErrors.ammar ? (
+                    <img
+                      src="/HD/name_ammar.png"
+                      alt="Ammar"
+                      className="rsvp-name-asset"
+                      onError={() => handleImgError("ammar")}
+                    />
+                  ) : (
+                    <h2 className="rsvp-name-calligraphy text-gold-gradient">
+                      Ammar
+                    </h2>
+                  )}
+                </div>
+
+                <div className="rsvp-weds-symbol">
+                  {!imgErrors.weds ? (
+                    <img
+                      src="/HD/name_weds.png"
+                      alt="Weds"
+                      className="rsvp-weds-asset"
+                      onError={() => handleImgError("weds")}
+                    />
+                  ) : (
+                    <span className="rsvp-weds-heart">
+                      <i className="ri-heart-3-fill"></i>
+                    </span>
+                  )}
+                </div>
+
+                <div className="rsvp-name-block">
+                  {!imgErrors.amatullah ? (
+                    <img
+                      src="/HD/name_amatullah.png"
+                      alt="Amatullah"
+                      className="rsvp-name-asset"
+                      onError={() => handleImgError("amatullah")}
+                    />
+                  ) : (
+                    <h2 className="rsvp-name-calligraphy text-gold-gradient">
+                      Amatullah
+                    </h2>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* 2. Shaadi Nu Jaman Title */}
+            <div className="rsvp-event-header">
+              <span className="rsvp-event-badge">
+                <i className="ri-sparkling-fill"></i>
+                Shaadi Nu Jaman
+                <i className="ri-sparkling-fill"></i>
+              </span>
+            </div>
+
+            {/* 3. Date, Time & Location Details (Line by Line, Centered) */}
+            <div className="rsvp-event-details-text">
+              <p className="rsvp-event-line">
+                <i className="ri-calendar-event-line"></i>
+                <span>26 Jamadal Ula &bull; 5th November </span>
+              </p>
+              <p className="rsvp-event-line">
+                <i className="ri-map-pin-2-line"></i>
+                <a
+                  href="https://maps.google.com/?q=Fakhri+Hall+Saifee+Mohalla+Ratlam"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rsvp-location-link"
+                >
+                  Fakhri Hall, Ratlam - 8:30 PM{" "}
+                  <i className="ri-external-link-line"></i>
+                </a>
+              </p>
+            </div>
+
+            <div className="rsvp-divider-ornate">
+              <span></span>
+              <i className="ri-shining-line"></i>
+              <span></span>
             </div>
 
             {!isSubmitted ? (
               <>
-                <p className="rsvp-intro-text">
-                  Please confirm your attendance so we may graciously prepare for
-                  your presence.
-                </p>
-
                 {errorMessage && (
                   <div className="rsvp-alert-error">
                     <i className="ri-error-warning-line"></i>
@@ -159,11 +242,12 @@ export default function Rsvp({ onToast }) {
                   </div>
                 )}
 
+                {/* 4. RSVP Form */}
                 <form className="rsvp-form" onSubmit={handleSubmit}>
                   {/* Full Name */}
                   <div className="rsvp-form-group">
                     <label htmlFor="rsvp-name" className="rsvp-label">
-                      Full Name / Family Name <span className="required-star">*</span>
+                      Full Name <span className="required-star">*</span>
                     </label>
                     <div className="rsvp-input-wrap">
                       <i className="ri-user-3-line rsvp-field-icon"></i>
@@ -180,133 +264,64 @@ export default function Rsvp({ onToast }) {
                     </div>
                   </div>
 
-                  {/* Phone / WhatsApp */}
-                  <div className="rsvp-form-group">
-                    <label htmlFor="rsvp-phone" className="rsvp-label">
-                      WhatsApp / Phone Number <span className="required-star">*</span>
-                    </label>
-                    <div className="rsvp-input-wrap">
-                      <i className="ri-whatsapp-line rsvp-field-icon"></i>
-                      <input
-                        type="tel"
-                        id="rsvp-phone"
-                        name="phone"
-                        className="rsvp-input"
-                        placeholder="e.g. +91 98765 43210"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  {/* Attendance Choice */}
+                  {/* Will you be attending? */}
                   <div className="rsvp-form-group">
                     <label className="rsvp-label">
-                      Will You Attend? <span className="required-star">*</span>
+                      Will you be attending?{" "}
+                      <span className="required-star">*</span>
                     </label>
-                    <div className="rsvp-attendance-grid">
-                      <button
-                        type="button"
-                        className={`rsvp-choice-btn ${
-                          formData.attendance === "Both Events" ? "active" : ""
+                    <div
+                      className="rsvp-radio-group"
+                      role="radiogroup"
+                      aria-label="Will you be attending?"
+                    >
+                      {/* Yes Option */}
+                      <label
+                        className={`rsvp-radio-card ${
+                          formData.attendance === "Yes" ? "active" : ""
                         }`}
-                        onClick={() => handleAttendanceSelect("Both Events")}
                       >
-                        <i className="ri-sparkling-fill choice-icon"></i>
-                        <div className="choice-text-wrap">
-                          <strong>Both Events</strong>
-                          <span>Khushi Nu Jaman & Walima</span>
-                        </div>
-                      </button>
-
-                      <button
-                        type="button"
-                        className={`rsvp-choice-btn ${
-                          formData.attendance === "Khushi Nu Jaman" ? "active" : ""
-                        }`}
-                        onClick={() => handleAttendanceSelect("Khushi Nu Jaman")}
-                      >
-                        <i className="ri-restaurant-2-line choice-icon"></i>
-                        <div className="choice-text-wrap">
-                          <strong>Khushi Nu Jaman</strong>
-                          <span>Thursday, 5th Nov</span>
-                        </div>
-                      </button>
-
-                      <button
-                        type="button"
-                        className={`rsvp-choice-btn ${
-                          formData.attendance === "Walima" ? "active" : ""
-                        }`}
-                        onClick={() => handleAttendanceSelect("Walima")}
-                      >
-                        <i className="ri-goblet-line choice-icon"></i>
-                        <div className="choice-text-wrap">
-                          <strong>Walima Only</strong>
-                          <span>Friday, 6th Nov</span>
-                        </div>
-                      </button>
-
-                      <button
-                        type="button"
-                        className={`rsvp-choice-btn ${
-                          formData.attendance === "Cannot Attend" ? "active decline" : ""
-                        }`}
-                        onClick={() => handleAttendanceSelect("Cannot Attend")}
-                      >
-                        <i className="ri-heart-line choice-icon"></i>
-                        <div className="choice-text-wrap">
-                          <strong>Regretfully Decline</strong>
-                          <span>Will pray from afar</span>
-                        </div>
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Number of Guests (Only if attending) */}
-                  {formData.attendance !== "Cannot Attend" && (
-                    <div className="rsvp-form-group">
-                      <label htmlFor="rsvp-guests" className="rsvp-label">
-                        Number of Attending Guests
-                      </label>
-                      <div className="rsvp-input-wrap">
-                        <i className="ri-team-line rsvp-field-icon"></i>
-                        <select
-                          id="rsvp-guests"
-                          name="guests"
-                          className="rsvp-input rsvp-select"
-                          value={formData.guests}
+                        <input
+                          type="radio"
+                          name="attendance"
+                          value="Yes"
+                          checked={formData.attendance === "Yes"}
                           onChange={handleChange}
-                        >
-                          <option value="1">1 Person</option>
-                          <option value="2">2 Persons</option>
-                          <option value="3">3 Persons</option>
-                          <option value="4">4 Persons</option>
-                          <option value="5">5 Persons</option>
-                          <option value="6">6+ Persons (Family)</option>
-                        </select>
-                      </div>
-                    </div>
-                  )}
+                          className="rsvp-radio-input"
+                          required
+                        />
+                        <div className="radio-custom-indicator">
+                          <span className="radio-inner-dot"></span>
+                        </div>
+                        <div className="choice-text-wrap">
+                          <strong>Yes, I will attend</strong>
+                        </div>
+                        <i className="ri-checkbox-circle-fill radio-status-icon"></i>
+                      </label>
 
-                  {/* Optional Message / Dua */}
-                  <div className="rsvp-form-group">
-                    <label htmlFor="rsvp-message" className="rsvp-label">
-                      Message & Dua for Ammar & Amatullah{" "}
-                      <span className="optional-text">(Optional)</span>
-                    </label>
-                    <div className="rsvp-input-wrap">
-                      <i className="ri-quill-pen-line rsvp-field-icon textarea-icon"></i>
-                      <textarea
-                        id="rsvp-message"
-                        name="message"
-                        className="rsvp-input rsvp-textarea"
-                        placeholder="Mubarak! Wishing both of you eternal happiness and barakah..."
-                        rows="3"
-                        value={formData.message}
-                        onChange={handleChange}
-                      ></textarea>
+                      {/* No Option */}
+                      <label
+                        className={`rsvp-radio-card ${
+                          formData.attendance === "No" ? "active decline" : ""
+                        }`}
+                      >
+                        <input
+                          type="radio"
+                          name="attendance"
+                          value="No"
+                          checked={formData.attendance === "No"}
+                          onChange={handleChange}
+                          className="rsvp-radio-input"
+                          required
+                        />
+                        <div className="radio-custom-indicator">
+                          <span className="radio-inner-dot"></span>
+                        </div>
+                        <div className="choice-text-wrap">
+                          <strong>No, I can't attend</strong>
+                        </div>
+                        <i className="ri-close-circle-fill radio-status-icon"></i>
+                      </label>
                     </div>
                   </div>
 
@@ -342,12 +357,13 @@ export default function Rsvp({ onToast }) {
                   Shukran! RSVP Received
                 </h3>
                 <p className="success-desc">
-                  Thank you, <strong>{formData.name}</strong>. Your response for{" "}
-                  <strong className="text-highlight">{formData.attendance}</strong>{" "}
-                  {formData.attendance !== "Cannot Attend" && (
-                    <>({formData.guests} {formData.guests === "1" ? "guest" : "guests"})</>
-                  )}{" "}
-                  has been recorded with heartfelt gratitude.
+                  Thank you, <strong>{formData.name}</strong>. Your response (
+                  <strong className="text-highlight">
+                    {formData.attendance === "Yes"
+                      ? "Yes, I will attend"
+                      : "No, I can't attend"}
+                  </strong>
+                  ) has been recorded with heartfelt gratitude.
                 </p>
 
                 <div className="success-actions">

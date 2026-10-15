@@ -36,6 +36,9 @@ export default function App() {
       {/* Floating Toast Notification */}
       <Toast message={toast.message} isVisible={toast.isVisible} />
 
+      {/* Guest RSVP & Blessings Form */}
+      <Rsvp onToast={showToast} />
+
       {/* Hero Section */}
       <Hero onToast={showToast} />
 
@@ -52,10 +55,7 @@ export default function App() {
       {/* <Gallery /> */}
 
       {/* Venue & Google Maps */}
-      <VenueMap onToast={showToast} />
-
-      {/* Guest RSVP & Blessings Form. */}
-      <Rsvp onToast={showToast} />
+      {/* <VenueMap onToast={showToast} /> */}
 
       {/* Quranic Ayah & Blessings */}
       <Blessings />

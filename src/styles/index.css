@@ -1139,21 +1139,209 @@ button {
   background: linear-gradient(180deg, rgba(12, 59, 46, 0.02) 0%, rgba(201, 162, 39, 0.05) 50%, rgba(12, 59, 46, 0.02) 100%);
 }
 
+.single-screen-rsvp {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+}
+
+.rsvp-single-container {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
 .rsvp-card-wrapper {
-  max-width: 780px;
+  width: 100%;
+  max-width: 680px;
   margin: 0 auto;
 }
 
 .rsvp-card {
-  padding: clamp(2.5rem, 5vw, 3.8rem) clamp(1.75rem, 4vw, 3.2rem);
+  padding: clamp(1.4rem, 3.2vw, 2.1rem) clamp(1.1rem, 3.5vw, 2.2rem);
   text-align: center;
+  box-shadow: 0 16px 48px rgba(12, 59, 46, 0.12), 0 2px 10px rgba(201, 162, 39, 0.15);
+}
+
+/* Header & Couple Design */
+.rsvp-header-couple {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.rsvp-bismillah-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.35rem;
+}
+
+.rsvp-bismillah-img {
+  height: clamp(48px, 7vw, 68px);
+  max-width: 90%;
+  width: auto;
+  opacity: 0.98;
+  filter: drop-shadow(0 3px 8px rgba(201, 162, 39, 0.3));
+  transition: transform 0.3s ease;
+}
+
+.rsvp-bismillah-text {
+  font-family: var(--font-arabic, serif);
+  font-size: clamp(1.4rem, 4vw, 1.8rem);
+  color: var(--color-gold-500);
+}
+
+.rsvp-couple-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 1.75rem;
+  flex-wrap: wrap;
+}
+
+.rsvp-name-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rsvp-name-asset {
+  height: clamp(58px, 9vw, 86px);
+  width: auto;
+  filter: drop-shadow(0 4px 14px rgba(12, 59, 46, 0.22));
+  transition: transform 0.3s ease;
+}
+
+.rsvp-name-asset:hover {
+  transform: scale(1.04);
+}
+
+.rsvp-name-calligraphy {
+  font-family: var(--font-script, cursive);
+  font-size: clamp(2.4rem, 5.5vw, 3.6rem);
+  line-height: 1.1;
+  color: var(--color-emerald-900);
+  margin: 0;
+}
+
+.rsvp-weds-symbol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rsvp-weds-asset {
+  height: clamp(32px, 5vw, 46px);
+  width: auto;
+  opacity: 0.9;
+  filter: drop-shadow(0 2px 6px rgba(201, 162, 39, 0.25));
+}
+
+.rsvp-weds-heart {
+  color: var(--color-gold-400);
+  font-size: 1.6rem;
+}
+
+/* Event Title Badge */
+.rsvp-event-header {
+  margin: 0.35rem 0 0.75rem;
+  display: flex;
+  justify-content: center;
+}
+
+.rsvp-event-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, rgba(12, 59, 46, 0.08) 0%, rgba(201, 162, 39, 0.16) 100%);
+  border: 1.2px solid rgba(201, 162, 39, 0.45);
+  color: var(--color-emerald-900);
+  font-family: var(--font-heading);
+  font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.4rem 1.25rem;
+  border-radius: 999px;
+  box-shadow: 0 3px 12px rgba(201, 162, 39, 0.15);
+}
+
+.rsvp-event-badge i {
+  color: var(--color-gold-500);
+  font-size: 0.85rem;
+}
+
+/* Date, Time & Location (Line by Line, Centered) */
+.rsvp-event-details-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  margin: 0.4rem 0 0.8rem;
+  text-align: center;
+}
+
+.rsvp-event-line {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: clamp(0.88rem, 2.3vw, 0.98rem);
+  color: var(--color-emerald-950);
+  line-height: 1.45;
+  margin: 0;
+  font-weight: 500;
+}
+
+.rsvp-event-line i {
+  color: var(--color-gold-500);
+  font-size: 1.05rem;
+  flex-shrink: 0;
+}
+
+.rsvp-location-link {
+  color: var(--color-emerald-900);
+  text-decoration: underline;
+  text-decoration-color: rgba(201, 162, 39, 0.4);
+  text-underline-offset: 3px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.rsvp-location-link:hover {
+  color: var(--color-gold-600);
+  text-decoration-color: var(--color-gold-500);
+}
+
+/* Ornate Divider */
+.rsvp-divider-ornate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 0.45rem 0 0.85rem;
+  color: var(--color-gold-400);
+  font-size: 0.9rem;
+}
+
+.rsvp-divider-ornate span {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 162, 39, 0.35), transparent);
 }
 
 .rsvp-intro-text {
   font-size: 1.1rem;
   color: var(--color-text-secondary);
   max-width: 540px;
-  margin: 0 auto 2rem;
+  margin: 0 auto 1.5rem;
   line-height: 1.6;
 }
 
@@ -1161,10 +1349,10 @@ button {
   background: rgba(217, 56, 58, 0.1);
   border: 1px solid rgba(217, 56, 58, 0.35);
   color: #a82325;
-  padding: 0.75rem 1.25rem;
+  padding: 0.65rem 1.1rem;
   border-radius: var(--radius-sm);
-  margin-bottom: 1.5rem;
-  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
   display: flex;
   align-items: center;
   gap: 0.6rem;
@@ -1174,7 +1362,7 @@ button {
 .rsvp-form {
   display: flex;
   flex-direction: column;
-  gap: 1.6rem;
+  gap: 0.95rem;
   text-align: left;
 }
 
@@ -1315,6 +1503,112 @@ button {
   margin-top: 0.15rem;
 }
 
+/* Radio Group & Cards */
+.rsvp-radio-group {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.9rem;
+}
+
+.rsvp-radio-card {
+  position: relative;
+  background: rgba(253, 250, 245, 0.75);
+  border: 1.5px solid rgba(201, 162, 39, 0.35);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.rsvp-radio-card:hover {
+  background: #ffffff;
+  border-color: var(--color-gold-400);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(201, 162, 39, 0.15);
+}
+
+.rsvp-radio-card.active {
+  background: linear-gradient(135deg, rgba(12, 59, 46, 0.08) 0%, rgba(201, 162, 39, 0.15) 100%);
+  border: 2px solid var(--color-gold-500);
+  box-shadow: 0 6px 18px rgba(201, 162, 39, 0.2);
+}
+
+.rsvp-radio-card.active.decline {
+  background: rgba(217, 56, 58, 0.06);
+  border-color: rgba(217, 56, 58, 0.45);
+  box-shadow: 0 6px 18px rgba(217, 56, 58, 0.12);
+}
+
+.rsvp-radio-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.radio-custom-indicator {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid rgba(201, 162, 39, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+  background: #ffffff;
+}
+
+.rsvp-radio-card.active .radio-custom-indicator {
+  border-color: var(--color-emerald-700);
+}
+
+.rsvp-radio-card.active.decline .radio-custom-indicator {
+  border-color: #d9383a;
+}
+
+.radio-inner-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: transparent;
+  transition: transform 0.2s ease, background 0.2s ease;
+  transform: scale(0);
+}
+
+.rsvp-radio-card.active .radio-inner-dot {
+  background: var(--color-emerald-700);
+  transform: scale(1);
+}
+
+.rsvp-radio-card.active.decline .radio-inner-dot {
+  background: #d9383a;
+  transform: scale(1);
+}
+
+.radio-status-icon {
+  margin-left: auto;
+  font-size: 1.35rem;
+  color: var(--color-gold-500);
+  opacity: 0.35;
+  transition: all 0.25s ease;
+}
+
+.rsvp-radio-card.active .radio-status-icon {
+  opacity: 1;
+  color: var(--color-emerald-700);
+}
+
+.rsvp-radio-card.active.decline .radio-status-icon {
+  opacity: 1;
+  color: #d9383a;
+}
+
 /* Actions & Button */
 .rsvp-actions {
   margin-top: 0.5rem;
@@ -1385,8 +1679,20 @@ button {
 }
 
 @media (max-width: 640px) {
-  .rsvp-attendance-grid {
+  .single-screen-rsvp {
+    padding: 1rem 0.65rem;
+    min-height: 100vh;
+  }
+  .rsvp-attendance-grid,
+  .rsvp-radio-group {
     grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+  .rsvp-card {
+    padding: 1.35rem 0.95rem;
+  }
+  .rsvp-couple-row {
+    gap: 0.5rem 1rem;
   }
   .rsvp-submit-btn {
     max-width: 100%;
