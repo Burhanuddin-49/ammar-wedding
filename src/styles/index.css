@@ -1151,6 +1151,8 @@ button {
   width: 100%;
   max-width: 680px;
   margin: 0 auto;
+  padding-left: clamp(0.5rem, 2vw, 1.5rem);
+  padding-right: clamp(0.5rem, 2vw, 1.5rem);
 }
 
 .rsvp-card-wrapper {
@@ -1172,16 +1174,18 @@ button {
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 0.75rem;
+  width: 100%;
 }
 
 .rsvp-bismillah-wrap {
   display: flex;
   justify-content: center;
   margin-bottom: 0.35rem;
+  width: 100%;
 }
 
 .rsvp-bismillah-img {
-  height: clamp(48px, 7vw, 68px);
+  height: clamp(50px, 8vw, 72px);
   max-width: 90%;
   width: auto;
   opacity: 0.98;
@@ -1199,19 +1203,26 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem 1.75rem;
-  flex-wrap: wrap;
+  gap: clamp(0.35rem, 2vw, 1.5rem);
+  flex-wrap: nowrap;
+  width: 100%;
+  max-width: 100%;
 }
 
 .rsvp-name-block {
+  flex: 1 1 0;
+  min-width: 0;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .rsvp-name-asset {
-  height: clamp(58px, 9vw, 86px);
-  width: auto;
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  max-height: clamp(66px, 12vw, 102px);
+  object-fit: contain;
   filter: drop-shadow(0 4px 14px rgba(12, 59, 46, 0.22));
   transition: transform 0.3s ease;
 }
@@ -1222,22 +1233,27 @@ button {
 
 .rsvp-name-calligraphy {
   font-family: var(--font-script, cursive);
-  font-size: clamp(2.4rem, 5.5vw, 3.6rem);
+  font-size: clamp(1.8rem, 5vw, 3.6rem);
   line-height: 1.1;
   color: var(--color-emerald-900);
   margin: 0;
+  white-space: nowrap;
 }
 
 .rsvp-weds-symbol {
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0 0.15rem;
 }
 
 .rsvp-weds-asset {
-  height: clamp(32px, 5vw, 46px);
+  height: clamp(36px, 6vw, 56px);
+  max-width: clamp(48px, 10vw, 80px);
   width: auto;
-  opacity: 0.9;
+  object-fit: contain;
+  opacity: 0.95;
   filter: drop-shadow(0 2px 6px rgba(201, 162, 39, 0.25));
 }
 
@@ -1680,8 +1696,12 @@ button {
 
 @media (max-width: 640px) {
   .single-screen-rsvp {
-    padding: 1rem 0.65rem;
+    padding: 0.65rem 0.35rem;
     min-height: 100vh;
+  }
+  .rsvp-single-container {
+    padding-left: 0;
+    padding-right: 0;
   }
   .rsvp-attendance-grid,
   .rsvp-radio-group {
@@ -1689,10 +1709,34 @@ button {
     gap: 0.65rem;
   }
   .rsvp-card {
-    padding: 1.35rem 0.95rem;
+    padding: 1.25rem 0.6rem;
+  }
+  .rsvp-header-couple {
+    width: 100%;
+    margin-bottom: 0.5rem;
   }
   .rsvp-couple-row {
-    gap: 0.5rem 1rem;
+    flex-wrap: nowrap !important;
+    gap: 0.25rem;
+    width: 100%;
+  }
+  .rsvp-name-block {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .rsvp-name-asset {
+    width: 100%;
+    max-height: clamp(62px, 16vw, 85px);
+    object-fit: contain;
+  }
+  .rsvp-weds-symbol {
+    flex: 0 0 auto;
+    padding: 0 0.05rem;
+  }
+  .rsvp-weds-asset {
+    height: clamp(30px, 7vw, 44px);
+    max-width: clamp(40px, 10vw, 58px);
+    object-fit: contain;
   }
   .rsvp-submit-btn {
     max-width: 100%;
